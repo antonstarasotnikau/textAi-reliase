@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="./src/index.css">
+    <link rel="stylesheet" href="./src/index.css">
+    <title>TextAI</title>
+</head>
+<body>
+    <div id="particles-js">
+        
+    </div>
+    <section class="section-programm">
+            
+        <header class="header">
+            <h1 class="title">text.Ai</h1>
+            <h2 class="subtitle">Intelegente App for text processing</h2>
+        </header>
+
+        <main class="main-form">
+            <form method="POST" action="" class="form">
+                <textarea name="Input text" id="input-text" placeholder="Input text ..."></textarea>
+                <div class="action-in-form">
+                    <div id="select" class="select">
+                        <div class="select_header">
+                            <img class="select-img img-un" src="./src/uniqueness.svg" alt="uniqueness">
+                            <span class="select-text">Uniqueness</span>
+                            <img class="select-img-arrow" src="./src/arrow.svg" alt="arrow-bottom">
+                        </div>
+                        <div class="select-body">
+                            <div class="select-option">
+                                <img class="select-img img-un" src="./src/uniqueness.svg" alt="uniqueness">
+                                <span class="select-text">Uniqueness</span>
+                                <img class="select-img-arrow" src="./src/arrow.svg" alt="arrow-bottom">
+                            </div>
+                            <div class="select-option">
+                                <img class="select-img img-rep" src="./src/repetition.svg" alt="repetition">
+                                <span class="select-text">Repetition</span>
+                            </div>
+                            <div class="select-option">
+                                <img class="select-img img-mis" src="./src/Misprint.svg" alt="misprint">
+                                <span class="select-text">Misprint</span>
+                            </div>
+                            <div class="select-option">
+                                <img class="select-img img-val" src="./src/validation.svg" alt="validation">
+                                <span class="select-text">Validation</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button disabled id="button" title="Enter at least 3 words!" class="button" type="button">Check</button>
+                </div>      
+                          
+            </form>
+            <div id="img" class="image">
+                <!--img src="./src/brain.svg" alt="brain"-->
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div>
+                <a href="http://devincubator.by/">
+                    <img src="./src/Incubator Logo.svg" alt="decincubator.by">
+                </a>                    
+            </div>
+            <div class="copyright">
+                Olga and Anton, 2021
+            </div>
+            <div class="links">
+                <div class="social-networks">
+                    <a href="https://github.com/antonstarasotnikau/antiplagiat">
+                        <img src="./src/git.svg" alt="Link on git">
+                    </a>
+                </div>
+                <div class="social-networks">
+                    <a href="https://vk.com/">
+                        <img src="./src/vk.svg" alt="Link on vk.com">
+                    </a>
+                </div>
+                <div class="social-networks">
+                    <a href="https://www.facebook.com/">
+                        <img src="./src/facebook.svg" alt="Link on facebook">
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <script src="./src/particles.js" defer></script>
+    <script src="./src/app.js" defer></script>
+
+    <script src="./src/select.js" async></script>
+    <script src="./src/serverRequest.js" async></script>
+
+</body>
+</html>
