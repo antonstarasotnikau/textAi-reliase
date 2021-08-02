@@ -61,7 +61,7 @@ body {
     justify-content: space-between;
     box-sizing: border-box;
     width: 100%;
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
 }
 
 .header{
@@ -109,6 +109,7 @@ body {
     border-radius: 1.25rem;
     align-items: center;
     width: 47.5%;
+    height: 21.25rem;
     margin-left: 5%;
     background-position: center center;
     background-size: cover;
@@ -186,8 +187,6 @@ option {
 
     display: flex;
     flex-flow: row wrap;
-
-    
 }
 
 .select_header:hover{
@@ -280,9 +279,9 @@ option {
 
     .image{
         width: 100%;
-        height: auto;
+        height: 21.25rem;
         order: -1;
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
         margin-left: 0%;
     }
 
