@@ -154,7 +154,7 @@ unsigned char toLowerCase(char symb) {
 		return c + 32;
 	else if ((c >= 144) && (c <= 159))
 		return c + 80;
-	else if (c == '¨')
+	else if (c == 'ё')
 		return c + 1;
 	else 
 		return c;
