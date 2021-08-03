@@ -67,11 +67,6 @@ string getDB(){
 }
 
 double antiPlagiarism(string source1, string source2) {
-	cout << "Input your fragment: ";
-	getline(cin, source1);
-	cout << endl;
-	cout << "Input original text: ";
-	getline(cin, source2);
 	
 	int sizeText1 = canonizeText(source1, text1);
 	int sizeText2 = canonizeText(source2, text2);
