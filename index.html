@@ -22,18 +22,18 @@
         <main class="main-form">
             <form method="POST" action="" class="form">
                 <textarea name="Input text" id="input-text" placeholder="Input text ..."></textarea>
-                <div class="action-in-form">
+                <!--div class="action-in-form">
                     <div id="select" class="select">
                         <div class="select_header">
                             <img class="select-img img-un" src="./src/uniqueness.svg" alt="uniqueness">
                             <span class="select-text">Uniqueness</span>
-                            <img class="select-img-arrow" src="./src/arrow.svg" alt="arrow-bottom">
+                            <img class="arrow-bottom select-img-absoluteBottom" src="./src/arrow.svg" alt="arrow-bottom">
                         </div>
                         <div class="select-body">
                             <div class="select-option">
                                 <img class="select-img img-un" src="./src/uniqueness.svg" alt="uniqueness">
                                 <span class="select-text">Uniqueness</span>
-                                <img class="select-img-arrow" src="./src/arrow.svg" alt="arrow-bottom">
+                                <img class="arrow-top select-img-absoluteTop" src="./src/arrow-top.svg" alt="arrow-bottom">
                             </div>
                             <div class="select-option">
                                 <img class="select-img img-rep" src="./src/repetition.svg" alt="repetition">
@@ -49,11 +49,48 @@
                             </div>
                         </div>
                     </div>
-                    <button disabled id="button" title="Enter at least 3 words!" class="button" type="button">Check</button>
-                </div>      
+                    <button disabled id="send" title="Enter at least 3 words!" class="button" type="button">Check</button>
+                </div-->      
                           
+
+                <div class="c-antiPlagiarism__configuration">
+
+                    <div class="c-select">
+                        <div class="c-select__header">
+                            <img class="c-select__img" src="./src/uniqueness.svg" alt="uniqueness" width="40"
+                                height="36">
+                            <span class="c-select__text">Uniqueness</span>
+                            <img class="c-select__img c-select__img--absoluteBottom" src="./src/arrow.svg"
+                                alt="arrow-bottom" width="30" height="15">
+                        </div>
+                        <div class="c-select__body">
+                            <div class="c-select__option">
+                                <img class="c-select__img" src="./src/uniqueness.svg" alt="uniqueness" width="40"
+                                    height="36"><span class="c-select__text">Uniqueness</span>
+                                <img class="c-select__img--absoluteTop" src="./src/arrow-top.svg"
+                                    alt="arrow-bottom">
+                            </div>
+                            <div class="c-select__option">
+                                <img class="c-select__img" src="./src/repetition.svg" alt="repetition" width="36"
+                                    height="36"><span class="c-select__text">Repetition</span>
+                            </div>
+                            <div class="c-select__option">
+                                <img class="c-select__img" src="./src/misprint.svg" alt="misprint" width="37"
+                                    height="32"><span class="c-select__text">Misprint</span>
+                            </div>
+                            <div class="c-select__option">
+                                <img class="c-select__img" src="./src/validation.svg" alt="validation" width="34"
+                                    height="34"><span class="c-select__text">Validation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="send" title="Enter at least 3 words!" class="c-antiPlagiarism__button"
+                        type="button">Check</button>
+                </div>
             </form>
             <div id="img" class="image">
+                <div class="result" id="result"></div>
                 <!--img src="./src/brain.svg" alt="brain"-->
             </div>
         </main>

@@ -21,6 +21,7 @@ copy src/app.js /var/www/html/src/app.js
 copy src/select.js /var/www/html/src/select.js
 
 copy src/arrow.svg /var/www/html/src/arrow.svg
+copy src/arrow-top.svg /var/www/html/src/arrow-top.svg
 copy src/brain.png /var/www/html/src/brain.png
 copy src/facebook.svg /var/www/html/src/facebook.svg
 copy src/git.svg /var/www/html/src/git.svg

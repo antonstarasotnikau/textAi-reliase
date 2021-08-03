@@ -1,7 +1,7 @@
-const selectBodyNode = document.querySelector(".select_body");
-const selectNode = document.querySelector(".select");
-let textAreaNode = document.querySelector(".text_area");
-const btnSendNode = document.querySelector(".button");
+const selectBodyNode = document.querySelector(".c-select__body");
+const selectNode = document.querySelector(".c-select");
+let textAreaNode = document.querySelector(".c-antiPlagiarizm__textarea");
+const btnSendNode = document.querySelector(".c-antiPlagiarizm__button");
 const WORDS_NUMBER = 2;
 
 Array.from(selectBodyNode.children).forEach((prop) => {
