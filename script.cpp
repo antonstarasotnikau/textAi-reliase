@@ -65,12 +65,20 @@ string getDB(){
     
     return dbText;
 }
-
+/* -------------------------------------------------------------------
+/* Author : antonstarasotnikau, OlgaSkalaban
+/* GitHub : https://github.com/antonstarasotnikau/textAi-reliase.git
+/* Parametres: source1 - text etalon;
+/* source2 - inputed fragment for checking.
+/* Description: method is canonize both input string and find percent
+/* for unique
+/* v2.0.0
+/* -------------------------------------------------------------------- */
 double antiPlagiarism(string source1, string source2) {
-	
+	//Canonize both text
 	int sizeText1 = canonizeText(source1, text1);
 	int sizeText2 = canonizeText(source2, text2);
-	
+	//Find percent unique
 	match = compaireText(text1, sizeText1, text2, sizeText2);	
 	
 	return match;
