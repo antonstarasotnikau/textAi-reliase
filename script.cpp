@@ -1,4 +1,3 @@
-  
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -7,6 +6,8 @@
 #include <cgicc/Cgicc.h>
 #include <cgicc/HTTPHTMLHeader.h>
 #include <cgicc/HTMLClasses.h>
+#include <fstream>
+
 using namespace std;
 using namespace cgicc;
 
@@ -29,6 +30,7 @@ string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
+	setlocale(LC_ALL, "Russian");
     Cgicc form;
     string name;
 
@@ -50,11 +52,7 @@ int main()
     cout << "</body>\n";
     cout << "</html>\n";
 
-    return 0;
-}
-
-int getInt(string name){
-	return name.length();
+    return 0;				
 }
 
 string getDB(){
@@ -174,7 +172,7 @@ unsigned char toLowerCase(char symb) {
 		return c + 32;
 	else if ((c >= 144) && (c <= 159))
 		return c + 80;
-	else if (c == 'ё')
+	else if (c == 'Ё')
 		return c + 1;
 	else 
 		return c;
