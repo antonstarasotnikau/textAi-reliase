@@ -19,7 +19,9 @@ int canonizeText(string source, string text[]);
 double compaireText(string text1[], int sizeText1, string text2[], int sizeText2);
 double antiPlagiarism(string source1, string source2);
 void stringToCharsArray(char textArray[], string text);
-const int N = 102400;
+void stringToCharsArray(char textArray[], string text);
+const int N = 10240;
+double match = 0.0;
 string text1[N];
 string text2[N];
 
@@ -28,10 +30,9 @@ string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
-	/*string string1 = "";
-	setlocale(LC_ALL, "Russian");
+	/*setlocale(LC_ALL, "Russian");
     Cgicc form;
-    string name;*/
+    string name;
 
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<html>\n";
@@ -41,22 +42,18 @@ int main()
     cout << "<body>\n";
     cout << "<p>";
 
-
-    string st1 = "Generally, plagiarism is not in itself a crime, but like counterfeiting fraud can be punished in a court[11][12] for prejudices caused by copyright infringement,[13][14] violation of moral rights,[15] or torts. In academia and industry, it is a serious ethical offense.[16][17] Plagiarism and copyright infringement overlap to a considerable extent, but they are not equivalent concepts,[18] and many types of plagiarism do not constitute copyright infringement, which is defined by copyright law and may be adjudicated by courts.";
-    string st2 = "Generally, plagiarism is not in itself a crime, but like counterfeiting ";
-    //name = form("name");
-    //if (!name.empty()) {
-
-    //cout << st1 << endl;
-    //cout << st2;
-    	cout << antiPlagiarism(st1, st2) << endl;
-    /*} else {
+    name = form("name");
+    if (!name.empty()) {
+    	cout << antiPlagiarism(getDB(), name) << "\n";
+    } else {
     	cout << "Text is not provided!\n";
-    }	*/
+    }
     cout << "</p>\n";
     cout << "</body>\n";
-    cout << "</html>\n";
-
+    cout << "</html>\n";*/
+	string text1 = "Generally, plagiarism is not in itself a crime, but like counterfeiting fraud can be punished in a court[11][12] for prejudices caused by copyright infringement,[13][14] violation of moral rights,[15] or torts. In academia and industry, it is a serious ethical offense.[16][17] Plagiarism and copyright infringement overlap to a considerable extent, but they are not equivalent concepts,[18] and many types of plagiarism do not constitute copyright infringement, which is defined by copyright law and may be adjudicated by courts.";
+	string fragment1 = "Generally, plagiarism is not in itself a crime, but like counterfeiting ";
+cout << antiPlagiarism(text1, fragment1);
     return 0;
 }
 
@@ -82,11 +79,12 @@ string getDB(){
 /* -------------------------------------------------------------------- */
 double antiPlagiarism(string source1, string source2) {
 
+
 	//Canonize both text
 	int sizeText1 = canonizeText(source1, text1);
 	int sizeText2 = canonizeText(source2, text2);
 	//Find percent unique
-	double match = compaireText(text1, sizeText1, text2, sizeText2);
+	match = compaireText(text1, sizeText1, text2, sizeText2);
 
 	return match;
 }
@@ -103,7 +101,6 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 	int temp_same = 0;
 	int same = 0;
 	int lenShingles = 3;
-	double match = 0;
 	string shingle[lenShingles];
 
 	int countShingles1 = sizeText1-lenShingles+1;
@@ -131,6 +128,7 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 	else
 		match = 100 - (100 * same * 2 / double(countShingles1 + countShingles2));
 
+
 	return match;
 }
 
@@ -148,100 +146,4 @@ int canonizeText(string source, string text[]) {
 			word[iw] = toLowerCase(textArray[i]);
 			iw++;
 			if (isSeparator(textArray[i+1]) || textArray[i+1] == '\0') {
-				word[iw] = '\0'; //çàêðûâàåì ñëîâî
-//				cout << word << endl;
-				text[iText] = word;
-				iText++;
-				iw = 0;
-			}
-		}
-	}
-	return iText;
-}
-
-void getCharsFromString(char textArray[], string text) {
-	int i = 0;
-	for (i = 0; text[i] != '\0'; i++)
-		textArray[i] = text[i];
-	textArray[i] = '\0';
-}
-
-unsigned char toLowerCase(char symb) {
-	unsigned char c = symb;
-	if ((c >= 128) && (c <= 143))
-		return c + 32;
-	else if ((c >= 144) && (c <= 159))
-		return c + 80;
-	else
-		return c;
-}
-
-bool isSeparator(char c) {
-	char separator[] = {" , . ! : ; ? / () - ' ' "};
-	for (int i = 0; separator[i] != '\0'; i++) {
-		if (c == separator[i])
-			return true;
-	}
-	return false;
-}
-
-unsigned char toCyrillic(char symb) {
-	unsigned char s = symb;
-	switch(s) {
-		case 65:
-			s = 128;
-			break;
-		case 97:
-			s = 160;
-			break;
-		case 66:
-			s = 130;
-			break;
-		case 67:
-			s = 145;
-			break;
-		case 99:
-			s = 225;
-			break;
-		case 69:
-			s = 133;
-			break;
-		case 101:
-			s = 165;
-			break;
-		case 72:
-			s = 141;
-			break;
-		case 75:
-			s = 138;
-			break;
-		case 77:
-			s = 140;
-			break;
-		case 79:
-			s = 142;
-			break;
-		case 111:
-			s = 174;
-			break;
-		case 80:
-			s = 144;
-			break;
-		case 112:
-			s = 224;
-			break;
-		case 84:
-			s = 146;
-			break;
-		case 88:
-			s = 149;
-			break;
-		case 120:
-			s = 229;
-			break;
-		case 121:
-			s = 227;
-			break;
-	}
-	return s;
-}
+				word[iw] = '\0'; //���
