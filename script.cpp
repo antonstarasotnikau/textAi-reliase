@@ -125,9 +125,9 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 	cout << endl << "Count of shingles TEXT 2 = " << countShingles2 << endl;
 	cout << endl << "Sames = " << same << endl;*/
 
-    double m = 100 - (same / countShingles1) * 100.0;
+    double match = 100 - ((double)same / countShingles1) * 100.0;
 
-	return m;
+	return match;
 }
 
 int canonizeText(string source, string text[]) {
