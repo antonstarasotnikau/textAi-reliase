@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "name=" + encodeURIComponent(document.getElementById("value").value);
 
     const request = new XMLHttpRequest();
-    request.open("POST", "http://http://34.116.180.219:8080//cgi-bin/script.cgi", true);
+    request.open("POST", "http://http://34.116.180.219:8080/cgi-bin/script.cgi", true);
 
     request.addEventListener("readystatechange", function () {
       const answerNumber = 100 - parseInt(request.responseText.replace(regexp, ""));
