@@ -19,9 +19,7 @@ int canonizeText(string source, string text[]);
 double compaireText(string text1[], int sizeText1, string text2[], int sizeText2);
 double antiPlagiarism(string source1, string source2);
 void stringToCharsArray(char textArray[], string text);
-void stringToCharsArray(char textArray[], string text);
 const int N = 10240;
-double match = 0.0;
 string text1[N];
 string text2[N];
 
@@ -51,7 +49,7 @@ int main()
     cout << "</p>\n";
     cout << "</body>\n";
     cout << "</html>\n";
-
+	
     return 0;				
 }
 
@@ -76,17 +74,12 @@ string getDB(){
 /* v2.0.0
 /* -------------------------------------------------------------------- */
 double antiPlagiarism(string source1, string source2) {
-	char text[N];
-	char fragment[N];
-
-	stringToCharsArray(text, source1);
-	stringToCharsArray(fragment, source2);
 
 	//Canonize both text
 	int sizeText1 = canonizeText(source1, text1);
 	int sizeText2 = canonizeText(source2, text2);
 	//Find percent unique
-	match = compaireText(text1, sizeText1, text2, sizeText2);	
+	double match = compaireText(text1, sizeText1, text2, sizeText2);	
 	
 	return match;
 }
