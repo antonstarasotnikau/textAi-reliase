@@ -106,7 +106,13 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 	int countShingles1 = sizeText1-lenShingles+1;
 	int countShingles2 = sizeText2-lenShingles+1;
 
-	for (int i = 0; i < countShingles1; i++) {
+	for (int i = 0; i < sizeText2; i++)
+		for (int j = 0; j < sizeText1; j++)
+			if (text1[i] == text2[j])
+				same++;
+
+
+	/*for (int i = 0; i < countShingles1; i++) {
 		for (int j = 0; j < lenShingles; j++) {
 			shingle[j] = text1[i+j];
 			if (shingle[j] == text2[i+j])
@@ -115,21 +121,29 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 		if (temp_same == lenShingles)
 			same++;
 			temp_same = 0;
-	}
-	/*
+	}*/
+
 	cout << endl << "Size text1 " << sizeText1 << " words" << endl;
 	cout << endl << "Size text2 " << sizeText2 << " words" << endl;
 	cout << endl << "Count of shingles TEXT 1 = " << countShingles1 << endl;
 	cout << endl << "Count of shingles TEXT 2 = " << countShingles2 << endl;
 	cout << endl << "Sames = " << same << endl;
-	*/
-	if (same == 0)
-		match = 0.0;
-	else
-		match = 100 - (100 * same * 2 / double(countShingles1 + countShingles2));
 
 
-	return match;
+
+	return 100 - same / sizeText1 * 100.0;;
+}
+
+double countplagiat(string arrayShinglesOriginal[], string arrayShinglesAnother[], int numberShinglesOriginal, int numberShinglesAnother)
+{
+	double matchesCount = 0;
+	double percentUnic = 0.0;
+	for (int i = 0; i < numberShinglesAnother; i++)
+		for (int j = 0; j < numberShinglesOriginal; j++)
+			if (arrayShinglesAnother[i] == arrayShinglesOriginal[j])
+				matchesCount++;
+	percentUnic = 100 - matchesCount / numberShinglesAnother * 100.0;
+	return percentUnic;
 }
 
 int canonizeText(string source, string text[]) {

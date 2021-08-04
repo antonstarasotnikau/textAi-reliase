@@ -11,31 +11,24 @@
 using namespace std;
 using namespace cgicc;
 
-const int  N = 10240;
-const int N_COUNT_WORD = 3;
-
-double antiPlagiarism(string text, string fragment);
-char charInLowerCasee(char symbol);
-void arrayCharToLowerCase(char array[N]);
-int getLenghtWord(char word[N], char text[N], int startSearch);
-bool compareTwoArrayChar(char firstWord[N], char secondWord[N]);
-void deleteDuplicate(char text[N], int lenghtCurrentWord, int lenghtNextWord);
+unsigned char toLowerCase(char c);
+unsigned char toCyrillic(char s);
 bool isSeparator(char c);
-void findAndDeleteDuplicate(char text[N]);
-void findAndDeleteDoubleSeporator(char text[N]);
-int getLenghtNCountWord(char word[N], char text[N], int startSearch, int nCountWord);
-char changeLatineInKirilSymbol(char symbol);
-bool isLatineSymbol( char symbol);
-void convertStringToArrayChar(char array[N], string string);
-void changeLatineLettersInWord(char word[]);
-bool hasLatineAndKirilLetters(char word[]);
-void replaceAllLatineLettersInRussianWord(char text[N]);
+void getCharsFromString(char textArray[], string text);
+int canonizeText(string source, string text[]);
+double compaireText(string text1[], int sizeText1, string text2[], int sizeText2);
+double antiPlagiarism(string source1, string source2);
+void stringToCharsArray(char textArray[], string text);
+const int N = 102400;
+string text1[N];
+string text2[N];
 
 int getInt(string name);//get length of text putted in the form on your site(this function we use only for example)
 string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
+	string string1 = "";
 	setlocale(LC_ALL, "Russian");
     Cgicc form;
     string name;
@@ -50,13 +43,14 @@ int main()
 
     name = form("name");
     if (!name.empty()) {
-    	cout << antiPlagiarism(getDB(), name) << "\n";
+    	cout << antiPlagiarism(getDB(), name) << endl;
     } else {
     	cout << "Text is not provided!\n";
     }
     cout << "</p>\n";
     cout << "</body>\n";
     cout << "</html>\n";
+
     return 0;
 }
 
@@ -80,289 +74,170 @@ string getDB(){
 /* for unique
 /* v2.0.0
 /* -------------------------------------------------------------------- */
-double antiPlagiarism(string text, string fragment) {
-        char textChar[N];
-        char fragmentChar[N];
+double antiPlagiarism(string source1, string source2) {
 
-        convertStringToArrayChar(textChar, text);
-        convertStringToArrayChar(fragmentChar, fragment);
+	//Canonize both text
+	int sizeText1 = canonizeText(source1, text1);
+	int sizeText2 = canonizeText(source2, text2);
+	//Find percent unique
+	double match = compaireText(text1, sizeText1, text2, sizeText2);
 
-        arrayCharToLowerCase(textChar);
-        arrayCharToLowerCase(fragmentChar);
-
-        //findAndDeleteDuplicate(textChar);
-        //findAndDeleteDuplicate(fragmentChar);
-
-        double countPartFragmentFromText = 0;
-        double countPartFragmentCompare = 0;
-        char nWordInText[N];
-        char nWordInFragment[N] = {""};
-        int j = 0;
-        int jFrag = 0;
-        while (fragment[j] != '\0') {
-                //for(int k = 0; k <3; k++) {
-                        nWordInFragment[0] = '\0';
-                        jFrag = getLenghtNCountWord(nWordInFragment, fragmentChar, j, N_COUNT_WORD);
-
-                        int i = 0;
-                        int iFrag = 0;
-                        while (fragmentChar[j] != '\0') {
-                                nWordInText[0] = '\0';
-                                iFrag = getLenghtNCountWord(nWordInText, textChar, i, N_COUNT_WORD);
-                                if (compareTwoArrayChar(nWordInText, nWordInFragment)) {
-                                        countPartFragmentCompare++;
-                                }
-                                countPartFragmentFromText++;
-
-                                //cout << i << " " << iFrag << " " << nWordInText << " " << j << " " << jFrag << " " << nWordInFragment << " " << countPartFragmentCompare << endl;
-                                i += getLenghtNCountWord(nWordInText, textChar, i, 1);
-                                if(iFrag == 0) {
-                                        break;
-                                }
-                        }
-
-                        j += getLenghtNCountWord(nWordInText, fragmentChar, j, 1);
-                        if(jFrag == 0) {
-                                break;
-                        }
-                }
-
-        return (((countPartFragmentFromText - countPartFragmentCompare) / countPartFragmentFromText) * 100);
+	return match;
 }
 
-void convertStringToArrayChar(char array[N], string string) {
-        unsigned int i = 0;
-        for (i = 0; i < string.length(); i++) {
-                array[i] = string[i];
-        }
-        array[i] = '\0';
+void stringToCharsArray(char textArray[], string text)
+{
+	int i = 0;
+	for (i = 0; i < text.length(); i++)
+		textArray[i] = text[i];
+	textArray[i] = '\0';
 }
 
-int getLenghtNCountWord(char word[N], char text[N], int startSearch, int nCountWord) {
-        int iw = 0;
-        int count = 0;
-        int i = 0;
-        for (i = startSearch; text[i] !='\0'; i++)
-                if (!isSeparator(text[i])) {
-                        word[iw] = text[i];
-                        iw++;
-                        if (isSeparator(text[i + 1]) || text[i + 1] == '\0') {
-                                count++;
-                                if (count == nCountWord) {
-                                        word[iw] = '\0';
-                                        return iw;
-                                }
-                        }
-                }
-                else {
-                        word[iw] = text[i];
-                        iw++;
-                }
-        /*if (text[i] == '\0')
-                return -1;*/
+double compaireText(string text1[], int sizeText1, string text2[], int sizeText2) {
+	int temp_same = 0;
+	int same = 0;
+	int lenShingles = 3;
+	string shingle[lenShingles];
 
-        return 0;
+	int countShingles1 = sizeText1-lenShingles+1;
+	int countShingles2 = sizeText2-lenShingles+1;
+
+	for (int i = 0; i < sizeText2; i++)
+		for (int j = 0; j < sizeText1; j++)
+			if (text1[i] == text2[j])
+				same++;
+
+
+	/*for (int i = 0; i < countShingles1; i++) {
+		for (int j = 0; j < lenShingles; j++) {
+			shingle[j] = text1[i+j];
+			if (shingle[j] == text2[i+j])
+				temp_same++;
+		}
+		if (temp_same == lenShingles)
+			same++;
+			temp_same = 0;
+	}*/
+
+/*	cout << endl << "Size text1 " << sizeText1 << " words" << endl;
+	cout << endl << "Size text2 " << sizeText2 << " words" << endl;
+	cout << endl << "Count of shingles TEXT 1 = " << countShingles1 << endl;
+	cout << endl << "Count of shingles TEXT 2 = " << countShingles2 << endl;
+	cout << endl << "Sames = " << same << endl;*/
+
+    double m = 100 - (same / countShingles1) * 100.0;
+
+	return m;
 }
 
-void findAndDeleteDoubleSeporator(char text[N]) {
-        int i = 0;
-        while (text[i] != '\0') {
-                if (isSeparator(text[i]) && isSeparator(text[i + 1])) {
-                        deleteDuplicate(text, i, 1);
-                }
-                else {
-                        i++;
-                }
-        }
+int canonizeText(string source, string text[]) {
+	char word[N];
+	char textArray[N];
+	int iw = 0;
+	int iText = 0;
+
+	getCharsFromString(textArray, source);
+
+	for (int i = 0; textArray[i] != '\0'; i++) {
+		if (!isSeparator(textArray[i])) {
+			textArray[i] = toCyrillic(textArray[i]);
+			word[iw] = toLowerCase(textArray[i]);
+			iw++;
+			if (isSeparator(textArray[i+1]) || textArray[i+1] == '\0') {
+				word[iw] = '\0'; //çàêðûâàåì ñëîâî
+//				cout << word << endl;
+				text[iText] = word;
+				iText++;
+				iw = 0;
+			}
+		}
+	}
+	return iText;
 }
 
-void findAndDeleteDuplicate(char text[N]) {
-        char currentWord[N];
-        char nextWord[N];
-        int i = 0;
-        while (text[i] != '\0') {
-                if (isSeparator(text[i])) {
-                        i++;
-                }
-                else {
-                        int lenghtCurrentWord = getLenghtWord(currentWord, text, i);
-                        int lenghtNextWord = getLenghtWord(nextWord, text, i + lenghtCurrentWord);
-                        if (lenghtCurrentWord == lenghtNextWord && compareTwoArrayChar(currentWord, nextWord)) {
-                                deleteDuplicate(text, i, lenghtNextWord);
-                        }
-                        else {
-                                i = i + lenghtCurrentWord;
-                        }
-                }
-        }
+void getCharsFromString(char textArray[], string text) {
+	int i = 0;
+	for (i = 0; text[i] != '\0'; i++)
+		textArray[i] = text[i];
+	textArray[i] = '\0';
 }
 
-void deleteDuplicate(char text[N], int lenghtCurrentWord, int lenghtNextWord) {
-        int i = 0;
-        for (i = lenghtCurrentWord; text[i] !='\0'; i++)
-                text[i] = text[i + lenghtNextWord];
-        text[i] = '\0';
-}
-
-int getLenghtWord(char word[N], char text[N], int startSearch) {
-        int iw = 0;
-        for (int i = startSearch; text[i] !='\0'; i++)
-                if (!isSeparator(text[i])) {
-                        word[iw] = text[i];
-                        iw++;
-                        if (isSeparator(text[i + 1]) || text[i + 1] == '\0') {
-                                word[iw] = '\0';
-                                return iw;
-                        }
-                }
-
-        return 0;
-}
-
-char charInLowerCasee(char symbol) {
-        if ((symbol >= 65 && symbol <= 90) || (symbol >= 128 && symbol <= 143))
-                symbol += 32;
-        if ((symbol >= 144 && symbol <= 159))
-                symbol += 80;
-        return symbol;
-}
-
-void arrayCharToLowerCase(char array[N]) {
-        for (int i = 0; array[i] != '\0'; i++)
-                array[i] = charInLowerCasee(array[i]);
-}
-
-bool compareTwoArrayChar(char firstWord[N], char secondWord[N]) {
-        int i = 0;
-        int j = 0;
-        while (firstWord[i] != '\0' || secondWord[j] != '\0' ) {
-                if (isSeparator(firstWord[i])) {
-                        i++;
-                        continue;
-                }
-                if (isSeparator(secondWord[j])) {
-                        j++;
-                        continue;
-                }
-                if (firstWord[i] != secondWord[j]) {
-                        return false;
-                }
-                i++;
-                j++;
-        }
-        if (firstWord[i] == '\0' && secondWord[j] == '\0')
-                return true;
-
-        return false;
+unsigned char toLowerCase(char symb) {
+	unsigned char c = symb;
+	if ((c >= 128) && (c <= 143))
+		return c + 32;
+	else if ((c >= 144) && (c <= 159))
+		return c + 80;
+	else
+		return c;
 }
 
 bool isSeparator(char c) {
-    char separators[] = {" ,.!?:;"};
-    for (int  i = 0; separators[i] !='\0'; i++)
-        if (separators[i] == c)
-            return true;
-    return false;
-}
-
-bool isLatineSymbol( char symbol) {
-	if ((symbol >= 65 && symbol <= 90) || (symbol >= 97 && symbol <= 122))
-		return true;
+	char separator[] = {" , . ! : ; ? / () - ' ' "};
+	for (int i = 0; separator[i] != '\0'; i++) {
+		if (c == separator[i])
+			return true;
+	}
 	return false;
 }
 
-void replaceAllLatineLettersInRussianWord(char text[N]) {
-        int i = 0;
-        while (text[i] != '\0') {
-                if (isLatineSymbol(text[i]))
-                        changeLatineInKirilSymbol(text[i]);
-                i++;
-        }
-}
-
-bool hasLatineAndKirilLetters(char word[]) {
-        int countLatineLetters = 0;
-        int countKirilLetters = 0;
-        int i = 0;
-        for (i = 0; word[i] != '\0'; i++) {
-                if (isLatineSymbol(word[i]))
-                        countLatineLetters++;
-                else {
-                        countKirilLetters++;
-                }
-        }
-        if ((countKirilLetters != 0 && countLatineLetters != 0))
-                return false;
-        else
-                return true;
-}
-
-void changeLatineLettersInWord(char word[]) {
-        int i = 0;
-        for (i = 0; word[i] != '\0'; i++) {
-                if (isLatineSymbol(word[i]))
-                        word[i] = changeLatineInKirilSymbol(word[i]);
-        }
-}
-
-char changeLatineInKirilSymbol(char symbol) {
-	switch (symbol) {
-		case 69://E
-			symbol = 133;
+unsigned char toCyrillic(char symb) {
+	unsigned char s = symb;
+	switch(s) {
+		case 65:
+			s = 128;
 			break;
-		case 84://T
-			symbol = 146;
+		case 97:
+			s = 160;
 			break;
-		case 79://O
-			symbol = 142;
+		case 66:
+			s = 130;
 			break;
-		case 80://P
-			symbol = 144;
+		case 67:
+			s = 145;
 			break;
-		case 88://X
-			symbol = 149;
+		case 99:
+			s = 225;
 			break;
-		case 65://A
-			symbol = 128;
+		case 69:
+			s = 133;
 			break;
-		case 72://H
-			symbol = 141;
+		case 101:
+			s = 165;
 			break;
-		case 75://K
-			symbol = 138;
+		case 72:
+			s = 141;
 			break;
-		case 67://C
-			symbol = 145;
+		case 75:
+			s = 138;
 			break;
-		case 66://B
-			symbol = 130;
+		case 77:
+			s = 140;
 			break;
-		case 77://M
-			symbol = 140;
+		case 79:
+			s = 142;
 			break;
-		case 101://e
-			symbol = 165;
+		case 111:
+			s = 174;
 			break;
-		case 111://o
-			symbol = 174;
+		case 80:
+			s = 144;
 			break;
-		case 112://p
-			symbol = 224;
+		case 112:
+			s = 224;
 			break;
-		case 120://x
-			symbol = 229;
+		case 84:
+			s = 146;
 			break;
-		case 121://y
-			symbol = 227;
+		case 88:
+			s = 149;
 			break;
-		case 97://a
-			symbol = 160;
+		case 120:
+			s = 229;
 			break;
-		case 99://c
-			symbol = 225;
-			break;
-		default:
+		case 121:
+			s = 227;
 			break;
 	}
-
-	return symbol;
+	return s;
 }

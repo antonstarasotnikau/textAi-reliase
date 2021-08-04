@@ -2,14 +2,14 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-/*#include <cgicc/CgiDefs.h>
+#include <cgicc/CgiDefs.h>
 #include <cgicc/Cgicc.h>
 #include <cgicc/HTTPHTMLHeader.h>
-#include <cgicc/HTMLClasses.h>*/
+#include <cgicc/HTMLClasses.h>
 #include <fstream>
 
 using namespace std;
-//using namespace cgicc;
+using namespace cgicc;
 
 const int  N = 10240;
 const int N_COUNT_WORD = 3;
@@ -36,7 +36,7 @@ string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
-	/*setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "Russian");
     Cgicc form;
     string name;
 
@@ -56,10 +56,7 @@ int main()
     }
     cout << "</p>\n";
     cout << "</body>\n";
-    cout << "</html>\n";*/
-	string text1 = "Generally, plagiarism is not in itself a crime, pyright infringement,[13][14] violation of moral rights,[15] offense.[16][17] Plagiarism and copyright infringement overlap to a considerable extent, but they are not equivalent concepts,[18] and many types of plagiarism do not constitute copyright infringement, which is defined by copyright law and may be adjudicated by courts.";
-	string fragment1 = "Generally, plagiarism is not in itself a crime, pyright infringement,[13][14] violation of moral rights,[15] offense.[16][17] Plagiarism and copyright infringement overlap to a considerable extent, but they are not equivalent concepts,[18] and many types of plagiarism do not constitute copyright infringement, which is defined by copyright law and may be adjudicated by courts.";
-cout << antiPlagiarism(text1, fragment1);
+    cout << "</html>\n";
     return 0;
 }
 
@@ -117,23 +114,20 @@ double antiPlagiarism(string text, string fragment) {
                                 }
                                 countPartFragmentFromText++;
 
-                                cout << i << " " << iFrag << " " << nWordInText << " " << j << " " << jFrag << " " << nWordInFragment << " " << countPartFragmentCompare << endl;
-                                i += getLenghtNCountWord(nWordInText, textChar, i, 3);
+                                //cout << i << " " << iFrag << " " << nWordInText << " " << j << " " << jFrag << " " << nWordInFragment << " " << countPartFragmentCompare << endl;
+                                i += getLenghtNCountWord(nWordInText, textChar, i, 1);
                                 if(iFrag == 0) {
                                         break;
                                 }
                         }
 
-                        j += getLenghtNCountWord(nWordInText, fragmentChar, j, 3);
+                        j += getLenghtNCountWord(nWordInText, fragmentChar, j, 1);
                         if(jFrag == 0) {
                                 break;
                         }
                 }
 
-cout << countPartFragmentCompare << endl;
-cout << countPartFragmentFromText << endl;
-
-        return ((countPartFragmentCompare / countPartFragmentFromText) * 100);
+        return (((countPartFragmentFromText - countPartFragmentCompare) / countPartFragmentFromText) * 100);
 }
 
 void convertStringToArrayChar(char array[N], string string) {
