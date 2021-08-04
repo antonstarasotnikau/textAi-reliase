@@ -21,7 +21,7 @@
 
         <main class="main-form">
             <form method="POST" action="" class="form">
-                <textarea name="value" id="value" placeholder="Input text ..."></textarea>
+                <textarea name="value" id="value" class="antiPlagiarism__textinput" placeholder="Input text ..."></textarea>
                 <!--div class="action-in-form">
                     <div id="select" class="select">
                         <div class="select_header">
@@ -82,12 +82,11 @@
                         </div>
                     </div>
 
-                    <button  id="send" title="Enter at least 3 words!" class="c-antiPlagiarism__button" type="button">Check</button>
+                    <button disabled id="send" title="Enter at least 3 words!" class="c-antiPlagiarism__button" type="button">Check</button>
                 </div>
             </form>
             <div id="img" class="image">
                 <div class="result" id="result"></div>
-                <!--img src="./src/brain.svg" alt="brain"-->
             </div>
         </main>
 
@@ -120,11 +119,11 @@
         </footer>
     </section>
 
-    <script src="./src/particles.js" defer></script>
-    <script src="./src/app.js" defer></script>
+    <script src="./src/particles.js" ></script>
+    <script src="./src/app.js" ></script>
 
-    <script src="./src/select.js" async></script>
-    <script src="./src/serverRequest.js" async></script>
+    <script src="./src/select.js" ></script>
+    <script src="./src/serverRequest.js" ></script>
 
 </body>
 </html>
