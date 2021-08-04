@@ -42,7 +42,8 @@ int main()
     
     name = form("name");
     if (!name.empty()) {
-    	cout << antiPlagiarism(getDB(), name) << "\n";
+		cout << 50;
+    	//cout << antiPlagiarism(getDB(), name) << "\n";
     } else {
     	cout << "Text is not provided!\n";
     }	
