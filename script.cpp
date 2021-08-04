@@ -28,6 +28,7 @@ string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
+	string string1 = "";
 	setlocale(LC_ALL, "Russian");
     Cgicc form;
     string name;
@@ -40,10 +41,10 @@ int main()
     cout << "<body>\n";
     cout << "<p>";
     
+	
     name = form("name");
     if (!name.empty()) {
-		cout << 50;
-    	//cout << antiPlagiarism(getDB(), name) << "\n";
+    	cout << antiPlagiarism(getDB(), name) << "\n";
     } else {
     	cout << "Text is not provided!\n";
     }	

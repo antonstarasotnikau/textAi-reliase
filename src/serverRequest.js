@@ -1,20 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const sendButton = document.getElementById("send"); // button send
+  const regexp = /[^(\d+(.\d+)?)]/g;
+  sendButton.addEventListener("click", function () {
+    let payload =
+      "name=" + encodeURIComponent(document.getElementById("value").value);
 
-    const sendButton = document.getElementById('send'); // button send
-    sendButton.addEventListener('click', function () {
-        let payload = 'name=' + encodeURIComponent(document.getElementById('value').value);
-        const regExp = /[^(\d+(.\d+)?)]/g;
+    const request = new XMLHttpRequest();
+    request.open("POST", "http://http://34.116.180.219:8080//cgi-bin/script.cgi", true);
 
-        const request = new XMLHttpRequest();
-        request.open('POST', 'http://34.116.180.219:8080/cgi-bin/script.cgi', true);
+    request.addEventListener("readystatechange", function () {
+      const answerNumber = 100 - parseInt(request.responseText.replace(regexp, ""));
+      console.log(answerNumber);
+      document.querySelector("#img").classList.add("opacity");
+      document.querySelector("#result").innerHTML = `${answerNumber}% unique`;
+    });
 
-        request.addEventListener('readystatechange', function () {
-            console.log(parseInt(request.responseText.replace(regExp, '')));
-            document.querySelector("#img").classList.add('opacity');
-            document.querySelector("#result").innerHTML = `${parseInt(request.responseText.replace(regExp, ''))} % unique`;
-        });
-
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        request.send(payload);
-    })
-})
+    request.setRequestHeader(
+      "Content-Type",
+      "application/x-www-form-urlencoded"
+    );
+    request.send(payload);
+  });
+});
