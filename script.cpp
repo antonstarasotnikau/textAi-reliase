@@ -96,6 +96,7 @@ double compaireText(string text1[], int sizeText1, string text2[], int sizeText2
 	int temp_same = 0;
 	int same = 0;
 	int lenShingles = 3;
+	double match = 0;
 	string shingle[lenShingles];
 	
 	int countShingles1 = sizeText1-lenShingles+1;
