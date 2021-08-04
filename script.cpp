@@ -43,7 +43,6 @@ int main()
 
     name = form("name");
     if (!name.empty()) {
-
     	cout << antiPlagiarism(getDB(), name) << endl;
     } else {
     	cout << "Text is not provided!\n";
