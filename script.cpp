@@ -17,7 +17,9 @@ void getCharsFromString(char textArray[], string text);
 int canonizeText(string source, string text[]);
 double compaireText(string text1[], int sizeText1, string text2[], int sizeText2);
 double antiPlagiarism(string source1, string source2);
-const int N = 1024;
+void stringToCharsArray(char textArray[], string text);
+void stringToCharsArray(char textArray[], string text);
+const int N = 10240;
 double match = 0.0;
 string text1[N];
 string text2[N];
@@ -50,6 +52,7 @@ int main()
 
     return 0;
 }
+
 int getInt(string name){
 	return name.length();
 }
@@ -75,6 +78,12 @@ string getDB(){
 /* v2.0.0
 /* -------------------------------------------------------------------- */
 double antiPlagiarism(string source1, string source2) {
+	char text[N];
+	char fragment[N];
+
+	stringToCharsArray(text, source1);
+	stringToCharsArray(fragment, source2);
+
 	//Canonize both text
 	int sizeText1 = canonizeText(source1, text1);
 	int sizeText2 = canonizeText(source2, text2);
@@ -82,6 +91,14 @@ double antiPlagiarism(string source1, string source2) {
 	match = compaireText(text1, sizeText1, text2, sizeText2);	
 	
 	return match;
+}
+
+void stringToCharsArray(char textArray[], string text)
+{
+	int i = 0;
+	for (i = 0; i < text.length(); i++)
+		textArray[i] = text[i];
+	textArray[i] = '\0';
 }
 
 double compaireText(string text1[], int sizeText1, string text2[], int sizeText2) {
