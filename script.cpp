@@ -2,14 +2,14 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-/*#include <cgicc/CgiDefs.h>
+#include <cgicc/CgiDefs.h>
 #include <cgicc/Cgicc.h>
 #include <cgicc/HTTPHTMLHeader.h>
-#include <cgicc/HTMLClasses.h>*/
+#include <cgicc/HTMLClasses.h>
 #include <fstream>
 
 using namespace std;
-//using namespace cgicc;
+using namespace cgicc;
 
 unsigned char toLowerCase(char c);
 unsigned char toCyrillic(char s);
@@ -28,10 +28,10 @@ string getDB();//get origin text from db.txt (don't modify tis function)
 
 int main()
 {
-	/*string string1 = "";
+	string string1 = "";
 	setlocale(LC_ALL, "Russian");
     Cgicc form;
-    string name;*/
+    string name;
 
     cout << "Content-type:text/html\r\n\r\n";
     cout << "<html>\n";
@@ -41,18 +41,15 @@ int main()
     cout << "<body>\n";
     cout << "<p>";
 
+    name = form("name");
+    if (!name.empty()) {
 
-    string st1 = "Generally, plagiarism is not in itself a crime, but like counterfeiting fraud can be punished in a court[11][12] for prejudices caused by copyright infringement,[13][14] violation of moral rights,[15] or torts. In academia and industry, it is a serious ethical offense.[16][17] Plagiarism and copyright infringement overlap to a considerable extent, but they are not equivalent concepts,[18] and many types of plagiarism do not constitute copyright infringement, which is defined by copyright law and may be adjudicated by courts.";
-    string st2 = "Generally, plagiarism is not in itself a crime, but like counterfeiting ";
-    //name = form("name");
-    //if (!name.empty()) {
-
-    //cout << st1 << endl;
-    //cout << st2;
+    cout << st1 << endl;
+    cout << st2;
     	cout << antiPlagiarism(st1, st2) << endl;
-    /*} else {
+    } else {
     	cout << "Text is not provided!\n";
-    }	*/
+    }
     cout << "</p>\n";
     cout << "</body>\n";
     cout << "</html>\n";
